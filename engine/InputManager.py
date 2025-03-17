@@ -1,6 +1,6 @@
 import pygame
 from typing import Tuple
-
+from engine.InputKeys import InputKeys
 
 class InputManager:
     def __init__(self):
@@ -34,19 +34,19 @@ class InputManager:
                 self.mouse_buttons_up[event.button] = True
                 self.mouse_pos = pygame.mouse.get_pos()
 
-    def is_key_down(self, key: int) -> bool:
+    def is_key_down(self, key: InputKeys) -> bool:
         return self.keys_down.get(key, False)
 
-    def is_key_up(self, key: int) -> bool:
+    def is_key_up(self, key: InputKeys) -> bool:
         return self.keys_up.get(key, False)
 
     def is_any_key_hold(self) -> bool:
         return len(self.keys_hold) > 0 
 
-    def is_mouse_button_down(self, button: int) -> bool:
+    def is_mouse_button_down(self, button: InputKeys) -> bool:
         return self.mouse_buttons_down.get(button, False)
 
-    def is_mouse_button_up(self, button: int) -> bool:
+    def is_mouse_button_up(self, button: InputKeys) -> bool:
         return self.mouse_buttons_up.get(button, False)
 
     def get_mouse_position(self) -> Tuple[int, int]:
