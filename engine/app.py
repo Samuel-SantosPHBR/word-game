@@ -40,6 +40,8 @@ class App:
             if self.on_update is not None:
                 self.on_update()
 
+            
             self.is_running = self.__handle_events()
-
+            self.input.update()
+            
             self.__render()
