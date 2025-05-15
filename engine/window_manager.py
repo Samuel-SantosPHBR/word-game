@@ -62,13 +62,3 @@ class WindowManager:
         self.screen.blit(fps_text, (10, 10))
         pygame.display.flip()
         self.clock.tick(self.fps_options[self.current_fps])
-
-if __name__ == "__main__":
-    window_manager = WindowManager()
-    running = True
-
-    while running:
-        running = window_manager.handle_events()
-        window_manager.render()
-
-    pygame.quit()
