@@ -28,46 +28,47 @@ class WindowManager:
         pygame.display.set_caption(self.name_game)
 
     def toggle_fullscreen(self):
-        self.fullscreen = not self.fullscreen
-        self.create_window()
+        pygame.display.toggle_fullscreen()
 
     def change_resolution(self, direction):
-        self.current_res =  max(0, min(self.current_res + direction, len(self.resolutions) - 1))
+        self.current_res = max(0, min(self.current_res + direction, len(self.resolutions) - 1))
         self.create_window()
 
     def change_fps(self, direction):
         self.current_fps = max(0, min(self.current_fps + direction, len(self.fps_options) - 1))
 
-    def run(self):
-        running = True
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return False
+                elif event.key == pygame.K_F7:
+                    self.change_fps(-1)
+                elif event.key == pygame.K_F8:
+                    self.change_fps(1)
+                elif event.key == pygame.K_F9:
+                    self.change_resolution(-1)
+                elif event.key == pygame.K_F10:
+                    self.change_resolution(1)
+                elif event.key == pygame.K_F11:
+                    self.toggle_fullscreen()
+        return True
 
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        running = False
-                    elif event.key == pygame.K_F7:
-                        self.change_fps(-1)
-                    elif event.key == pygame.K_F8:
-                        self.change_fps(1)
-                    elif event.key == pygame.K_F9:
-                        self.change_resolution(-1)
-                    elif event.key == pygame.K_F10:
-                        self.change_resolution(1)
-                    elif event.key == pygame.K_F11:
-                        self.toggle_fullscreen()
-
-            self.screen.fill((30, 30, 30))
-
-            fps_text = self.font.render(f"FPS: {self.fps_options[self.current_fps]}", True, (255, 255, 255))
-            self.screen.blit(fps_text, (10, 10))
-
-            pygame.display.flip()
-            self.clock.tick(self.fps_options[self.current_fps])
-
-        pygame.quit()
+    def render(self):
+        self.screen.fill((30, 30, 30))
+        fps_text = self.font.render(f"FPS: {self.fps_options[self.current_fps]}", True, (255, 255, 255))
+        self.screen.blit(fps_text, (10, 10))
+        pygame.display.flip()
+        self.clock.tick(self.fps_options[self.current_fps])
 
 if __name__ == "__main__":
-    WindowManager().run()
+    window_manager = WindowManager()
+    running = True
+
+    while running:
+        running = window_manager.handle_events()
+        window_manager.render()
+
+    pygame.quit()
