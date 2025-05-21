@@ -1,8 +1,9 @@
 import pygame
 
 class WindowManager:
-    def __init__(self):
+    def __init__(self, input_manager):
         pygame.init()
+        self.input_manager = input_manager
         self.name_game = 'Word Game'
         self.resolutions = [(800, 600), (1280, 720), (1920, 1080)]
         self.current_res = 1
@@ -28,7 +29,8 @@ class WindowManager:
         pygame.display.set_caption(self.name_game)
 
     def toggle_fullscreen(self):
-        pygame.display.toggle_fullscreen()
+        self.fullscreen = not self.fullscreen
+        self.create_window()
 
     def change_resolution(self, direction):
         self.current_res = max(0, min(self.current_res + direction, len(self.resolutions) - 1))
@@ -37,8 +39,8 @@ class WindowManager:
     def change_fps(self, direction):
         self.current_fps = max(0, min(self.current_fps + direction, len(self.fps_options) - 1))
 
-    def handle_events(self):
-        for event in pygame.event.get():
+    def handle_events(self, events):
+        for event in events:
             if event.type == pygame.QUIT:
                 return False
             elif event.type == pygame.KEYDOWN:
@@ -58,7 +60,8 @@ class WindowManager:
 
     def render(self):
         self.screen.fill((30, 30, 30))
-        fps_text = self.font.render(f"FPS: {self.fps_options[self.current_fps]}", True, (255, 255, 255))
+        fps_index = max(0, min(self.current_fps, len(self.fps_options) - 1))
+        fps_text = self.font.render(f"FPS: {self.fps_options[fps_index]}", True, (255, 255, 255))
         self.screen.blit(fps_text, (10, 10))
         pygame.display.flip()
-        self.clock.tick(self.fps_options[self.current_fps])
+        self.clock.tick(self.fps_options[fps_index])
