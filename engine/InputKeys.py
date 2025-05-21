@@ -17,3 +17,11 @@ class InputKeys(Enum):
     SPACE = 32
     MOUSE_LEFT = 1
     MOUSE_RIGHT = 3
+    F7 = pygame.K_F7
+    F8 = pygame.K_F8
+    F9 = pygame.K_F9
+    F10 = pygame.K_F10
+    F11 = pygame.K_F11
+    K_ESCAPE = pygame.K_ESCAPE
+    QUIT = pygame.QUIT
+    KEYDOWN = pygame.KEYDOWN

@@ -11,13 +11,13 @@ class InputManager:
         self.keys_hold = {}
         self.mouse_pos = (0, 0)
 
-    def update(self):
+    def update(self, events):
         self.keys_down.clear()
         self.keys_up.clear()
         self.mouse_buttons_down.clear()
         self.mouse_buttons_up.clear()
 
-        for event in pygame.event.get():
+        for event in events:
             if event.type == pygame.KEYDOWN:
                 self.keys_down[event.key] = True
                 self.keys_hold[event.key] = True
@@ -35,19 +35,19 @@ class InputManager:
                 self.mouse_pos = pygame.mouse.get_pos()
 
     def is_key_down(self, key: InputKeys) -> bool:
-        return self.keys_down.get(key, False)
+        return self.keys_down.get(key.value, False)
 
     def is_key_up(self, key: InputKeys) -> bool:
-        return self.keys_up.get(key, False)
+        return self.keys_up.get(key.value, False)
 
     def is_any_key_hold(self) -> bool:
         return len(self.keys_hold) > 0 
 
     def is_mouse_button_down(self, button: InputKeys) -> bool:
-        return self.mouse_buttons_down.get(button, False)
+        return self.mouse_buttons_down.get(button.value, False)
 
     def is_mouse_button_up(self, button: InputKeys) -> bool:
-        return self.mouse_buttons_up.get(button, False)
+        return self.mouse_buttons_up.get(button.value, False)
 
     def get_mouse_position(self) -> Tuple[int, int]:
         return self.mouse_pos
