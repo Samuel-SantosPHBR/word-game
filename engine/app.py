@@ -26,13 +26,13 @@ class App:
     def get_input_manager(self):
         return self.input
 
-    def __render(self):
-        self.window.render()
+    def __render(self, images_data):
+        self.window.render(images_data)
 
     def __handle_events(self):
         return self.window.handle_events()
 
-    def execute(self):
+    def execute(self, images_data):
         if self.on_start is not None:
             self.on_start()
 
@@ -44,4 +44,4 @@ class App:
             if self.on_update is not None:
                 self.on_update()
 
-            self.__render()
+            self.__render(images_data)

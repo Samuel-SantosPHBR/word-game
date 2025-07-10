@@ -12,6 +12,7 @@ class WindowManager:
         self.current_fps = 1
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 24)
+        self.images = []
         self.create_window()
 
     def create_window(self):
@@ -58,10 +59,16 @@ class WindowManager:
                     self.toggle_fullscreen()
         return True
 
-    def render(self):
+
+    def render(self, images_data):
         self.screen.fill((30, 30, 30))
         fps_index = max(0, min(self.current_fps, len(self.fps_options) - 1))
         fps_text = self.font.render(f"FPS: {self.fps_options[fps_index]}", True, (255, 255, 255))
         self.screen.blit(fps_text, (10, 10))
+        for image_data in images_data:
+            print(image_data['path'], image_data['x'], image_data['y'])
+            img = pygame.image.load(image_data['path'])
+            img = pygame.transform.scale(img, (50, 50))
+            self.screen.blit(img, (image_data['x'], image_data['y']))
         pygame.display.flip()
         self.clock.tick(self.fps_options[fps_index])
